@@ -8,9 +8,10 @@ import {
   Post,
 } from '@nestjs/common';
 import { Customer, CustomerService } from './customer.service';
+import { CustomerDTO } from './dto/customer.dto';
 
-@Controller('customer')
-export class CustomerContoller {
+@Controller('customers')
+export class CustomerController {
   constructor(private readonly customerService: CustomerService) {}
   @Get()
   findAll(): Customer[] {
@@ -23,7 +24,7 @@ export class CustomerContoller {
   }
 
   @Post()
-  create(@Body() body): Customer[] {
+  create(@Body() body: CustomerDTO): Customer[] {
     return this.customerService.create(body);
   }
 
@@ -33,7 +34,7 @@ export class CustomerContoller {
   }
 
   @Patch(':id')
-  update(@Param() params, @Body() body): Customer[] {
+  update(@Param() params, @Body() body: CustomerDTO): Customer[] {
     return this.customerService.update(params.id, body);
   }
 }

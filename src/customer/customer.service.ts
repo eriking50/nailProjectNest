@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { CustomerDTO } from './dto/customer.dto';
+import { CustomerUpdateDTO } from './dto/customerUpdate.dto';
 
 export type Customer = {
-  id?: number;
+  id: number;
   name: string;
   phone: string;
 };
@@ -25,9 +27,8 @@ export class CustomerService {
     return database;
   }
 
-  create(customerData: Customer): Customer[] {
+  create(customerData: CustomerDTO): Customer[] {
     const lastId = database[database.length - 1].id;
-    console.log(lastId);
     database.push({ ...customerData, id: lastId + 1 });
     return database.filter((data) => lastId + 1 === data.id);
   }
@@ -39,7 +40,7 @@ export class CustomerService {
     }
   }
 
-  update(id: string, customerData: Customer): Customer[] {
+  update(id: string, customerData: CustomerUpdateDTO): Customer[] {
     const updateIndex = database.findIndex((data) => data.id === parseInt(id));
     const customer = {
       ...database[updateIndex],
