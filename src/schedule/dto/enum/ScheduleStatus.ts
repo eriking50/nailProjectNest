@@ -1,6 +1,6 @@
 export enum ScheduleStatus {
-  MARCADO = 0,
-  REMARCADO = 1,
-  PAGO = 2,
-  NAOPAGO = 3,
+  SCHEDULED = 0,
+  RESCHEDULED = 1,
+  PAID = 2,
+  DEBT = 3,
 }

@@ -1,8 +1,8 @@
 export enum ScheduleType {
-  MANICURE = 0,
-  PEDICURE = 1,
-  MANICUREPEDICURE = 2,
-  UNHAGEL = 3,
-  MANUTENCAO = 4,
-  SPAPES = 5,
+  HANDS = 0,
+  FEET = 1,
+  HANDSFEET = 2,
+  GELNAIL = 3,
+  GELNAILFIX = 4,
+  FEETSPA = 5,
 }
