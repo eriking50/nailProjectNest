@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Schedule } from '@prisma/client';
-import { getParamDate } from 'src/helpers/dateHelper';
+import DateHelper from 'src/helpers/dateHelper';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ScheduleDTO } from './dto/schedule.dto';
 import { ScheduleUpdateDTO } from './dto/scheduleUpdate.dto';
@@ -18,7 +18,7 @@ export class ScheduleService {
   }
 
   async getAllByDate(date: string): Promise<Schedule[]> {
-    const baseDate = getParamDate(date);
+    const baseDate = DateHelper.getParamDate(date);
     const nextDate = new Date(baseDate.getTime());
     nextDate.setDate(baseDate.getDate() + 1);
     return this.prisma.schedule.findMany({
