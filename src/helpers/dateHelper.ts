@@ -13,6 +13,15 @@ export default class DateHelper {
       parseInt(month) - 1,
       parseInt(day),
     );
+    if (isNaN(paramDate.getTime())) {
+      throw new HttpException(
+        {
+          error:
+            "Data inválida, a forma correta é dd-mm-yyyy-tipo de busca ('day', 'week' ou 'month')",
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
     let baseDate: Date;
     let nextDate: Date;
     switch (type) {
