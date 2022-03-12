@@ -46,7 +46,7 @@ export default class DateHelper {
         };
 
       default:
-        throw new Error('Data inválida');
+        throw new Error('Tipo de Data Inválida');
     }
   };
 }
