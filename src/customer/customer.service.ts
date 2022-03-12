@@ -8,16 +8,22 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class CustomerService {
   constructor(private prisma: PrismaService) {}
   async getOne(id: string): Promise<Customer> {
-    const customer = this.prisma.customer.findFirst({
+    return this.prisma.customer.findFirst({
       where: { id },
     });
-    if (customer) {
-      return customer;
-    }
   }
 
   getAll(): Promise<Customer[]> {
     return this.prisma.customer.findMany();
+  }
+
+  getOneWithSchedules(id: string): Promise<Customer> {
+    return this.prisma.customer.findFirst({
+      where: { id },
+      include: {
+        schedules: true,
+      },
+    });
   }
 
   create(customerData: CustomerDTO): Promise<Customer> {

@@ -23,6 +23,10 @@ export class CustomerController {
   async findOne(@Param() params): Promise<Customer> {
     return this.customerService.getOne(params.id);
   }
+  @Get('schedules/:id')
+  async findOnewishSchedules(@Param() params): Promise<Customer> {
+    return this.customerService.getOneWithSchedules(params.id);
+  }
 
   @Post()
   async create(@Body() body: CustomerDTO): Promise<Customer> {
