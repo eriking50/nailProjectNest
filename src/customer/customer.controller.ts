@@ -23,7 +23,7 @@ export class CustomerController {
   async findOne(@Param() params): Promise<Customer> {
     return this.customerService.getOne(params.id);
   }
-  @Get('schedules/:id')
+  @Get(':id/schedules')
   async findOnewishSchedules(@Param() params): Promise<Customer> {
     return this.customerService.getOneWithSchedules(params.id);
   }
