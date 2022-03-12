@@ -16,30 +16,30 @@ export class CustomerController {
   constructor(private readonly customerService: CustomerService) {}
   @Get()
   async findAll(): Promise<Customer[]> {
-    return this.customerService.getAll();
+    return await this.customerService.getAll();
   }
 
   @Get(':id')
   async findOne(@Param() params): Promise<Customer> {
-    return this.customerService.getOne(params.id);
+    return await this.customerService.getOne(params.id);
   }
   @Get(':id/schedules')
   async findOnewishSchedules(@Param() params): Promise<Customer> {
-    return this.customerService.getOneWithSchedules(params.id);
+    return await this.customerService.getOneWithSchedules(params.id);
   }
 
   @Post()
   async create(@Body() body: CustomerDTO): Promise<Customer> {
-    return this.customerService.create(body);
+    return await this.customerService.create(body);
   }
 
   @Delete(':id')
   async delete(@Param() params): Promise<Customer> {
-    return this.customerService.delete(params.id);
+    return await this.customerService.delete(params.id);
   }
 
   @Patch(':id')
   async update(@Param() params, @Body() body: CustomerDTO): Promise<Customer> {
-    return this.customerService.update(params.id, body);
+    return await this.customerService.update(params.id, body);
   }
 }

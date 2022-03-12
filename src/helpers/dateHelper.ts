@@ -1,3 +1,5 @@
+import { HttpException, HttpStatus } from '@nestjs/common';
+
 export type ParsedDate = {
   baseDate: Date;
   nextDate: Date;
@@ -46,7 +48,12 @@ export default class DateHelper {
         };
 
       default:
-        throw new Error('Tipo de Data Inválida');
+        throw new HttpException(
+          {
+            error: 'Tipo de Data Inválida',
+          },
+          HttpStatus.BAD_REQUEST,
+        );
     }
   };
 }

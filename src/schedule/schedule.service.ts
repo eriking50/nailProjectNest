@@ -19,7 +19,6 @@ export class ScheduleService {
 
   async getAllByDate(date: string): Promise<Schedule[]> {
     const parsedDate = DateHelper.getParamDate(date);
-    console.log(parsedDate);
     return this.prisma.schedule.findMany({
       where: {
         scheduleDate: {

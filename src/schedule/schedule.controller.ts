@@ -15,24 +15,28 @@ import { ScheduleService } from './schedule.service';
 @Controller('schedules')
 export class ScheduleController {
   constructor(private readonly scheduleService: ScheduleService) {}
-  @Get(':date')
-  async findAll(@Param() params): Promise<Schedule[]> {
-    return this.scheduleService.getAllByDate(params.date);
+  @Get('date/:date')
+  async findAllByDate(@Param() params): Promise<Schedule[]> {
+    const response = await this.scheduleService.getAllByDate(params.date);
+    return response;
   }
 
   @Get(':id')
   async findOne(@Param() params): Promise<Schedule> {
-    return this.scheduleService.getOne(params.id);
+    const response = await this.scheduleService.getOne(params.id);
+    if (response) {
+      return response;
+    }
   }
 
   @Post()
   async create(@Body() body: ScheduleDTO): Promise<Schedule> {
-    return this.scheduleService.create(body);
+    return await this.scheduleService.create(body);
   }
 
   @Delete(':id')
   async delete(@Param() params): Promise<Schedule> {
-    return this.scheduleService.delete(params.id);
+    return await this.scheduleService.delete(params.id);
   }
 
   @Patch(':id')
@@ -40,6 +44,6 @@ export class ScheduleController {
     @Param() params,
     @Body() body: ScheduleUpdateDTO,
   ): Promise<Schedule> {
-    return this.scheduleService.update(params.id, body);
+    return await this.scheduleService.update(params.id, body);
   }
 }
