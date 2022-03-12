@@ -7,34 +7,35 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { Customer, CustomerService } from './customer.service';
+import { Customer } from '@prisma/client';
+import { CustomerService } from './customer.service';
 import { CustomerDTO } from './dto/customer.dto';
 
 @Controller('customers')
 export class CustomerController {
   constructor(private readonly customerService: CustomerService) {}
   @Get()
-  findAll(): Customer[] {
+  async findAll(): Promise<Customer[]> {
     return this.customerService.getAll();
   }
 
   @Get(':id')
-  findOne(@Param() params): Customer[] {
+  async findOne(@Param() params): Promise<Customer> {
     return this.customerService.getOne(params.id);
   }
 
   @Post()
-  create(@Body() body: CustomerDTO): Customer[] {
+  async create(@Body() body: CustomerDTO): Promise<Customer> {
     return this.customerService.create(body);
   }
 
   @Delete(':id')
-  delete(@Param() params): void {
+  async delete(@Param() params): Promise<Customer> {
     return this.customerService.delete(params.id);
   }
 
   @Patch(':id')
-  update(@Param() params, @Body() body: CustomerDTO): Customer[] {
+  async update(@Param() params, @Body() body: CustomerDTO): Promise<Customer> {
     return this.customerService.update(params.id, body);
   }
 }

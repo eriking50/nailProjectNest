@@ -1,10 +1,10 @@
-import { ScheduleStatus } from './enum/ScheduleStatus';
-import { ScheduleType } from './enum/ScheduleType';
+import { Status, Type } from '@prisma/client';
 
 export class ScheduleDTO {
-  date: Date;
+  scheduleDate: Date;
+  title: string;
   price: number;
-  type: ScheduleType;
-  status: ScheduleStatus;
-  customerId: number;
+  type: Type;
+  status: Status;
+  customerId: string;
 }

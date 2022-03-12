@@ -3,6 +3,6 @@ export enum ScheduleType {
   FEET = 1,
   HANDSFEET = 2,
   GELNAIL = 3,
-  GELNAILFIX = 4,
+  FIX = 4,
   FEETSPA = 5,
 }

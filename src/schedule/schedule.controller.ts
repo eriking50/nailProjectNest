@@ -7,35 +7,39 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
+import { Schedule } from '@prisma/client';
 import { ScheduleDTO } from './dto/schedule.dto';
 import { ScheduleUpdateDTO } from './dto/scheduleUpdate.dto';
-import { Schedule, ScheduleService } from './schedule.service';
+import { ScheduleService } from './schedule.service';
 
 @Controller('schedules')
 export class ScheduleController {
   constructor(private readonly scheduleService: ScheduleService) {}
-  @Get()
-  findAll(): Schedule[] {
-    return this.scheduleService.getAll();
+  @Get(':date')
+  async findAll(@Param() params): Promise<Schedule[]> {
+    return this.scheduleService.getAllByDate(params.date);
   }
 
   @Get(':id')
-  findOne(@Param() params): Schedule[] {
+  async findOne(@Param() params): Promise<Schedule> {
     return this.scheduleService.getOne(params.id);
   }
 
   @Post()
-  create(@Body() body: ScheduleDTO): Schedule[] {
+  async create(@Body() body: ScheduleDTO): Promise<Schedule> {
     return this.scheduleService.create(body);
   }
 
   @Delete(':id')
-  delete(@Param() params): void {
+  async delete(@Param() params): Promise<Schedule> {
     return this.scheduleService.delete(params.id);
   }
 
   @Patch(':id')
-  update(@Param() params, @Body() body: ScheduleUpdateDTO): Schedule[] {
+  async update(
+    @Param() params,
+    @Body() body: ScheduleUpdateDTO,
+  ): Promise<Schedule> {
     return this.scheduleService.update(params.id, body);
   }
 }

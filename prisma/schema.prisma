@@ -1,0 +1,49 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource naildatabase {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+
+model Customer {
+  id        String   @id @default(uuid())
+  phone     String   
+  name      String
+  createdAt DateTime @default(now())
+  schedules Schedule[]
+}
+
+model Schedule {
+  id        String   @id @default(uuid())
+  scheduleDate DateTime
+  createdAt DateTime @default(now())
+  title     String   @naildatabase.VarChar(255)
+  price     Decimal   
+  customer  Customer @relation(fields: [customerId], references: [id])
+  status    Status     
+  type      Type     
+  customerId  String
+}
+
+
+enum Status {
+  SCHEDULED
+  RESCHEDULED
+  PAID
+  DEBT
+}
+
+enum Type {
+  HANDS
+  FEET
+  HANDSFEET
+  GELNAIL
+  FIX
+  FEETSPA
+}

@@ -1,55 +1,41 @@
 import { Injectable } from '@nestjs/common';
 import { CustomerDTO } from './dto/customer.dto';
 import { CustomerUpdateDTO } from './dto/customerUpdate.dto';
-
-export type Customer = {
-  id: number;
-  name: string;
-  phone: string;
-};
-
-const database: Customer[] = [
-  { id: 1, name: 'Erik', phone: '12345678' },
-  { id: 2, name: 'Helena', phone: '12345678' },
-  { id: 3, name: 'Joao', phone: '12345678' },
-];
+import { Customer } from '@prisma/client';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class CustomerService {
-  getOne(id: string): Customer[] {
-    const customer = database.filter((data) => parseInt(id) === data.id);
+  constructor(private prisma: PrismaService) {}
+  async getOne(id: string): Promise<Customer> {
+    const customer = this.prisma.customer.findFirst({
+      where: { id },
+    });
     if (customer) {
       return customer;
     }
   }
 
-  getAll() {
-    return database;
+  getAll(): Promise<Customer[]> {
+    return this.prisma.customer.findMany();
   }
 
-  create(customerData: CustomerDTO): Customer[] {
-    const lastId = database[database.length - 1].id;
-    database.push({ ...customerData, id: lastId + 1 });
-    return database.filter((data) => lastId + 1 === data.id);
+  create(customerData: CustomerDTO): Promise<Customer> {
+    return this.prisma.customer.create({
+      data: customerData,
+    });
   }
 
-  delete(id: string): void {
-    const deleteIndex = database.findIndex((data) => data.id === parseInt(id));
-    if (deleteIndex) {
-      database.splice(deleteIndex, 1);
-    }
+  delete(id: string): Promise<Customer> {
+    return this.prisma.customer.delete({
+      where: { id },
+    });
   }
 
-  update(id: string, customerData: CustomerUpdateDTO): Customer[] {
-    const updateIndex = database.findIndex((data) => data.id === parseInt(id));
-    const customer = {
-      ...database[updateIndex],
-      ...customerData,
-      id: parseInt(id),
-    };
-    if (updateIndex) {
-      database.splice(updateIndex, 1, customer);
-    }
-    return [customer];
+  update(id: string, customerData: CustomerUpdateDTO): Promise<Customer> {
+    return this.prisma.customer.update({
+      data: customerData,
+      where: { id },
+    });
   }
 }

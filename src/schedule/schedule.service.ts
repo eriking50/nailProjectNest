@@ -1,89 +1,55 @@
 import { Injectable } from '@nestjs/common';
-import { ScheduleStatus } from './dto/enum/ScheduleStatus';
-import { ScheduleType } from './dto/enum/ScheduleType';
+import { Schedule } from '@prisma/client';
+import { getParamDate } from 'src/helpers/dateHelper';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { ScheduleDTO } from './dto/schedule.dto';
 import { ScheduleUpdateDTO } from './dto/scheduleUpdate.dto';
 
-export type Schedule = {
-  id: number;
-  date: Date;
-  price: number;
-  type: ScheduleType;
-  status: ScheduleStatus;
-  customerId: number;
-};
-
-const database: Schedule[] = [
-  {
-    id: 1,
-    date: new Date(),
-    price: 15,
-    type: ScheduleType.HANDS,
-    status: ScheduleStatus.PAID,
-    customerId: 1,
-  },
-  {
-    id: 2,
-    date: new Date(),
-    price: 30,
-    type: ScheduleType.HANDSFEET,
-    status: ScheduleStatus.PAID,
-    customerId: 2,
-  },
-  {
-    id: 3,
-    date: new Date(),
-    price: 50,
-    type: ScheduleType.GELNAILFIX,
-    status: ScheduleStatus.PAID,
-    customerId: 2,
-  },
-  {
-    id: 4,
-    date: new Date(),
-    price: 15,
-    type: ScheduleType.FEET,
-    status: ScheduleStatus.PAID,
-    customerId: 1,
-  },
-];
-
 @Injectable()
 export class ScheduleService {
-  getOne(id: string): Schedule[] {
-    const customer = database.filter((data) => parseInt(id) === data.id);
-    if (customer) {
-      return customer;
-    }
+  constructor(private readonly prisma: PrismaService) {}
+  async getOne(id: string): Promise<Schedule> {
+    return this.prisma.schedule.findFirst({
+      where: { id },
+      include: {
+        customer: true,
+      },
+    });
   }
 
-  getAll() {
-    return database;
+  async getAllByDate(date: string): Promise<Schedule[]> {
+    const baseDate = getParamDate(date);
+    const nextDate = new Date(baseDate.getTime());
+    nextDate.setDate(baseDate.getDate() + 1);
+    return this.prisma.schedule.findMany({
+      where: {
+        scheduleDate: {
+          gte: baseDate,
+          lt: nextDate,
+        },
+      },
+      include: {
+        customer: true,
+      },
+    });
   }
 
-  create(scheduleData: ScheduleDTO): Schedule[] {
-    const lastId = database[database.length - 1].id;
-    database.push({ ...scheduleData, id: lastId + 1 });
-    return database.filter((data) => lastId + 1 === data.id);
+  async create(scheduleData: ScheduleDTO): Promise<Schedule> {
+    return this.prisma.schedule.create({
+      data: scheduleData,
+    });
   }
 
-  delete(id: string): void {
-    const deleteIndex = database.findIndex((data) => data.id === parseInt(id));
-    if (deleteIndex) {
-      database.splice(deleteIndex, 1);
-    }
+  async delete(id: string): Promise<Schedule> {
+    return this.prisma.schedule.delete({
+      where: { id },
+    });
   }
 
-  update(id: string, scheduleData: ScheduleUpdateDTO): Schedule[] {
-    const updateIndex = database.findIndex((data) => data.id === parseInt(id));
-    const customer = {
-      ...database[updateIndex],
-      ...scheduleData,
-      id: parseInt(id),
-    };
-    if (updateIndex) {
-      database.splice(updateIndex, 1, customer);
-    }
-    return [customer];
+  async update(id: string, scheduleData: ScheduleUpdateDTO): Promise<Schedule> {
+    return this.prisma.schedule.update({
+      data: scheduleData,
+      where: { id },
+    });
   }
 }
