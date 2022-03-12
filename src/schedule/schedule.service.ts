@@ -18,14 +18,13 @@ export class ScheduleService {
   }
 
   async getAllByDate(date: string): Promise<Schedule[]> {
-    const baseDate = DateHelper.getParamDate(date);
-    const nextDate = new Date(baseDate.getTime());
-    nextDate.setDate(baseDate.getDate() + 1);
+    const parsedDate = DateHelper.getParamDate(date);
+    console.log(parsedDate);
     return this.prisma.schedule.findMany({
       where: {
         scheduleDate: {
-          gte: baseDate,
-          lt: nextDate,
+          gte: parsedDate.baseDate,
+          lt: parsedDate.nextDate,
         },
       },
       include: {
