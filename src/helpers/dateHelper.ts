@@ -49,7 +49,7 @@ export default class DateHelper {
         nextDate = new Date(
           paramDate.getFullYear(),
           paramDate.getMonth() + 1,
-          0,
+          1,
         );
         return {
           baseDate,
