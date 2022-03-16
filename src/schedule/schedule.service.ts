@@ -22,8 +22,8 @@ export class ScheduleService {
     return this.prisma.schedule.findMany({
       where: {
         scheduleDate: {
-          gte: parsedDate.baseDate,
-          lt: parsedDate.nextDate,
+          gte: parsedDate.startDate,
+          lt: parsedDate.endDate,
         },
       },
       include: {

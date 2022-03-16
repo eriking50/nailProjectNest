@@ -1,8 +1,8 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 
 export type ParsedDate = {
-  baseDate: Date;
-  nextDate: Date;
+  startDate: Date;
+  endDate: Date;
 };
 
 export default class DateHelper {
@@ -22,38 +22,38 @@ export default class DateHelper {
         HttpStatus.BAD_REQUEST,
       );
     }
-    let baseDate: Date;
-    let nextDate: Date;
+    let startDate: Date;
+    let endDate: Date;
     switch (type) {
       case 'day':
-        baseDate = new Date(paramDate.getTime());
-        nextDate = new Date(paramDate.getTime());
-        nextDate.setDate(paramDate.getDate() + 1);
+        startDate = new Date(paramDate.getTime());
+        endDate = new Date(paramDate.getTime());
+        endDate.setDate(paramDate.getDate() + 1);
         return {
-          baseDate,
-          nextDate,
+          startDate,
+          endDate,
         };
       case 'week':
-        baseDate = new Date(paramDate.getTime());
-        nextDate = new Date(paramDate.getTime());
-        if (baseDate.getDay() !== 0) {
-          baseDate.setDate(baseDate.getDate() - paramDate.getDay());
+        startDate = new Date(paramDate.getTime());
+        endDate = new Date(paramDate.getTime());
+        if (startDate.getDay() !== 0) {
+          startDate.setDate(startDate.getDate() - paramDate.getDay());
         }
-        nextDate.setDate(baseDate.getDate() + 7);
+        endDate.setDate(startDate.getDate() + 7);
         return {
-          baseDate,
-          nextDate,
+          startDate,
+          endDate,
         };
       case 'month':
-        baseDate = new Date(paramDate.getFullYear(), paramDate.getMonth(), 1);
-        nextDate = new Date(
+        startDate = new Date(paramDate.getFullYear(), paramDate.getMonth(), 1);
+        endDate = new Date(
           paramDate.getFullYear(),
           paramDate.getMonth() + 1,
           1,
         );
         return {
-          baseDate,
-          nextDate,
+          startDate,
+          endDate,
         };
 
       default:
