@@ -14,7 +14,11 @@ export class CustomerService {
   }
 
   getAll(): Promise<Customer[]> {
-    return this.prisma.customer.findMany();
+    return this.prisma.customer.findMany({
+      orderBy: {
+        name: 'asc',
+      },
+    });
   }
 
   getOneWithSchedules(id: string): Promise<Customer> {
