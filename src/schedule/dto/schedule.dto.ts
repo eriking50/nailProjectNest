@@ -31,7 +31,7 @@ export class ScheduleDTO {
 
   @IsEnum(Status, {
     message:
-      "Informe o tipo considerando as seguintes opções: 'SCHEDULED','RESCHEDULED','PAID','DEBT'",
+      "Informe o status considerando as seguintes opções: 'SCHEDULED','RESCHEDULED','PAID','DEBT'",
   })
   status: Status;
 
