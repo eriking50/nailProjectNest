@@ -23,11 +23,10 @@ export class ScheduleDTO {
   )
   price: number;
 
-  @IsEnum(Type, {
-    message:
-      "Informe o tipo considerando as seguintes opções: 'HANDS','FEET','HANDSFEET','GELNAIL','FIX','FEETSPA'",
+  @IsNotEmpty({
+    message: 'O id do tipo não pode ser vazio',
   })
-  type: Type;
+  typeId: string;
 
   @IsEnum(Status, {
     message:

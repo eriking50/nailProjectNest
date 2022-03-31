@@ -27,8 +27,16 @@ model Schedule {
   price     Decimal   
   customer  Customer @relation(fields: [customerId], references: [id])
   status    Status     
-  type      Type     
+  type      Type     @relation(fields: [typeId], references: [id])
   customerId  String
+  typeId  String
+}
+
+model Type {
+  id        String   @id @default(uuid())
+  name      String   @naildatabase.VarChar(255)
+  createdAt DateTime @default(now())
+  schedules Schedule[]
 }
 
 
@@ -39,11 +47,3 @@ enum Status {
   DEBT
 }
 
-enum Type {
-  HANDS
-  FEET
-  HANDSFEET
-  GELNAIL
-  FIX
-  FEETSPA
-}

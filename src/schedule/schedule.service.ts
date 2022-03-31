@@ -12,8 +12,9 @@ export class ScheduleService {
     return this.prisma.schedule.findFirst({
       where: { id },
       include: {
-        customer: true,
-      },
+        type: true,
+        customer: true
+      }
     });
   }
 
@@ -27,7 +28,8 @@ export class ScheduleService {
         },
       },
       include: {
-        customer: true,
+        type: true,
+        customer: true
       },
     });
   }

@@ -4,6 +4,6 @@ export class ScheduleUpdateDTO {
   scheduleDate?: Date;
   title?: string;
   price?: number;
-  type?: Type;
+  typeId?: string;
   status?: Status;
 }
