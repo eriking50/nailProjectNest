@@ -6,12 +6,17 @@ import {
   Param,
   Patch,
   Post,
+  UsePipes,
 } from '@nestjs/common';
 import { Customer } from '@prisma/client';
 import { CustomerService } from './customer.service';
 import { CustomerDTO } from '../../types/dtos/customer/customer.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { CustomerUpdateDTO } from 'src/types/dtos/customer/customerUpdate.dto';
+import {
+  makeValidationCreate,
+  makeValidationUpdate,
+} from 'src/helpers/validation/validationPipes';
 
 @ApiTags('customers')
 @Controller('customers')
@@ -33,6 +38,7 @@ export class CustomerController {
   }
 
   @Post()
+  @UsePipes(makeValidationCreate())
   async create(@Body() body: CustomerDTO): Promise<Customer> {
     return await this.customerService.create(body);
   }
@@ -43,6 +49,7 @@ export class CustomerController {
   }
 
   @Patch(':id')
+  @UsePipes(makeValidationUpdate())
   async update(
     @Param() params,
     @Body() body: CustomerUpdateDTO,

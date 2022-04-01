@@ -7,9 +7,14 @@ import {
   Patch,
   Post,
   Query,
+  UsePipes,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Schedule } from '@prisma/client';
+import {
+  makeValidationCreate,
+  makeValidationUpdate,
+} from 'src/helpers/validation/validationPipes';
 import { ScheduleDTO } from '../../types/dtos/schedule/schedule.dto';
 import { ScheduleUpdateDTO } from '../../types/dtos/schedule/scheduleUpdate.dto';
 import { ScheduleService } from './schedule.service';
@@ -36,6 +41,7 @@ export class ScheduleController {
   }
 
   @Post()
+  @UsePipes(makeValidationCreate())
   async create(@Body() body: ScheduleDTO): Promise<Schedule> {
     return await this.scheduleService.create(body);
   }
@@ -46,6 +52,7 @@ export class ScheduleController {
   }
 
   @Patch(':id')
+  @UsePipes(makeValidationUpdate())
   async update(
     @Param() params,
     @Body() body: ScheduleUpdateDTO,
