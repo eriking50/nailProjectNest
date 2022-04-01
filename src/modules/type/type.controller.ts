@@ -8,8 +8,8 @@ import {
   Post,
 } from '@nestjs/common';
 import { Type } from '@prisma/client';
-import { TypeDTO } from './dto/type.dto';
-import { TypeUpdateDTO } from './dto/typeUpdate.dto';
+import { TypeDTO } from '../../types/dtos/type/type.dto';
+import { TypeUpdateDTO } from '../../types/dtos/type/typeUpdate.dto';
 import { TypeService } from './type.service';
 
 @Controller('types')

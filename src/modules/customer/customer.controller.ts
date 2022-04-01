@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { Customer } from '@prisma/client';
 import { CustomerService } from './customer.service';
-import { CustomerDTO } from './dto/customer.dto';
+import { CustomerDTO } from '../../types/dtos/customer/customer.dto';
 
 @Controller('customers')
 export class CustomerController {

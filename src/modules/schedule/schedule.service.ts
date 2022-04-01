@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { Schedule } from '@prisma/client';
 import DateHelper from 'src/helpers/dateHelper';
 import { PrismaService } from 'src/modules/prisma/prisma.service';
-import { ScheduleDTO } from './dto/schedule.dto';
-import { ScheduleUpdateDTO } from './dto/scheduleUpdate.dto';
+import { ScheduleDTO } from '../../types/dtos/schedule/schedule.dto';
+import { ScheduleUpdateDTO } from '../../types/dtos/schedule/scheduleUpdate.dto';
 
 @Injectable()
 export class ScheduleService {

@@ -9,8 +9,8 @@ import {
   Query,
 } from '@nestjs/common';
 import { Schedule } from '@prisma/client';
-import { ScheduleDTO } from './dto/schedule.dto';
-import { ScheduleUpdateDTO } from './dto/scheduleUpdate.dto';
+import { ScheduleDTO } from '../../types/dtos/schedule/schedule.dto';
+import { ScheduleUpdateDTO } from '../../types/dtos/schedule/scheduleUpdate.dto';
 import { ScheduleService } from './schedule.service';
 
 @Controller('schedules')
