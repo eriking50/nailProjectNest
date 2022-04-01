@@ -18,13 +18,13 @@ export class ScheduleService {
     });
   }
 
-  async getAllByDate(date: string): Promise<Schedule[]> {
-    const queryDate = DateHelper.getParamDate(date);
+  async getAllByDate(date: string, type: string): Promise<Schedule[]> {
+    const queryDate = DateHelper.getParamDate(date, type);
     return this.prisma.schedule.findMany({
       where: {
         scheduleDate: {
           gte: queryDate.startDate,
-          lt: queryDate.endDate,
+          lte: queryDate.endDate,
         },
       },
       include: {

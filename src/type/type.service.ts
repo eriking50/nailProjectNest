@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Schedule, Type } from '@prisma/client';
-import DateHelper from 'src/helpers/dateHelper';
+import { Type } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { TypeDTO } from './dto/type.dto';
 import { TypeUpdateDTO } from './dto/typeUpdate.dto';

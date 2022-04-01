@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { Schedule } from '@prisma/client';
 import { ScheduleDTO } from './dto/schedule.dto';
@@ -16,8 +17,8 @@ import { ScheduleService } from './schedule.service';
 export class ScheduleController {
   constructor(private readonly scheduleService: ScheduleService) {}
   @Get('date/:date')
-  async findAllByDate(@Param() params): Promise<Schedule[]> {
-    const response = await this.scheduleService.getAllByDate(params.date);
+  async findAllByDate(@Param() params, @Query() query): Promise<Schedule[]> {
+    const response = await this.scheduleService.getAllByDate(params.date, query.type);
     return response;
   }
 
