@@ -12,8 +12,7 @@ export default class DateHelper {
     if (!date.isValid) {
       throw new HttpException(
         {
-          error:
-            "Data inválida, a forma correta é yyyy-mm-dd, ex: 2020-10-01",
+          error: 'Data inválida, a forma correta é yyyy-mm-dd, ex: 2020-10-01',
         },
         HttpStatus.BAD_REQUEST,
       );
@@ -30,8 +29,8 @@ export default class DateHelper {
           endDate: endDate.toJSDate(),
         };
       case 'week':
-        startDate = DateTime.fromISO(paramsDate)
-        console.log(startDate.weekday)
+        startDate = DateTime.fromISO(paramsDate);
+        console.log(startDate.weekday);
         if (startDate.weekday !== 7) {
           startDate = startDate.plus({ days: date.weekday });
         }

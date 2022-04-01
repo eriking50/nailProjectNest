@@ -18,7 +18,10 @@ export class ScheduleController {
   constructor(private readonly scheduleService: ScheduleService) {}
   @Get('date/:date')
   async findAllByDate(@Param() params, @Query() query): Promise<Schedule[]> {
-    const response = await this.scheduleService.getAllByDate(params.date, query.type);
+    const response = await this.scheduleService.getAllByDate(
+      params.date,
+      query.type,
+    );
     return response;
   }
 

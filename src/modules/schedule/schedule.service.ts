@@ -13,8 +13,8 @@ export class ScheduleService {
       where: { id },
       include: {
         type: true,
-        customer: true
-      }
+        customer: true,
+      },
     });
   }
 
@@ -29,7 +29,7 @@ export class ScheduleService {
       },
       include: {
         type: true,
-        customer: true
+        customer: true,
       },
     });
   }
