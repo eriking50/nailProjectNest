@@ -1,4 +1,5 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
+import { DateTime } from 'luxon';
 
 export type ParsedDate = {
   startDate: Date;
@@ -6,60 +7,51 @@ export type ParsedDate = {
 };
 
 export default class DateHelper {
-  static getParamDate = (date: string): ParsedDate => {
-    const [day, month, year, type] = date.split('-');
-    const paramDate = new Date(
-      parseInt(year),
-      parseInt(month) - 1,
-      parseInt(day),
-    );
-    if (isNaN(paramDate.getTime())) {
+  static getParamDate = (paramsDate: string, queryType: string): ParsedDate => {
+    const date = DateTime.fromISO(paramsDate);
+    if (!date.isValid) {
       throw new HttpException(
         {
           error:
-            "Data inválida, a forma correta é dd-mm-yyyy-tipo de busca ('day', 'week' ou 'month')",
+            "Data inválida, a forma correta é yyyy-mm-dd, ex: 2020-10-01",
         },
         HttpStatus.BAD_REQUEST,
       );
     }
-    let startDate: Date;
-    let endDate: Date;
-    switch (type) {
+    let startDate: DateTime;
+    let endDate: DateTime;
+
+    switch (queryType) {
       case 'day':
-        startDate = new Date(paramDate.getTime());
-        endDate = new Date(paramDate.getTime());
-        endDate.setDate(paramDate.getDate() + 1);
+        startDate = DateTime.fromISO(paramsDate);
+        endDate = startDate.plus({ days: 1 }).minus({ seconds: 1 });
         return {
-          startDate,
-          endDate,
+          startDate: startDate.toJSDate(),
+          endDate: endDate.toJSDate(),
         };
       case 'week':
-        startDate = new Date(paramDate.getTime());
-        endDate = new Date(paramDate.getTime());
-        if (startDate.getDay() !== 0) {
-          startDate.setDate(startDate.getDate() - paramDate.getDay());
+        startDate = DateTime.fromISO(paramsDate)
+        console.log(startDate.weekday)
+        if (startDate.weekday !== 7) {
+          startDate = startDate.plus({ days: date.weekday });
         }
-        endDate.setDate(startDate.getDate() + 7);
+        endDate = startDate.plus({ days: 7 }).minus({ seconds: 1 });
         return {
-          startDate,
-          endDate,
+          startDate: startDate.toJSDate(),
+          endDate: endDate.toJSDate(),
         };
       case 'month':
-        startDate = new Date(paramDate.getFullYear(), paramDate.getMonth(), 1);
-        endDate = new Date(
-          paramDate.getFullYear(),
-          paramDate.getMonth() + 1,
-          1,
-        );
+        startDate = DateTime.fromISO(paramsDate).minus({ days: date.day - 1 });
+        endDate = startDate.plus({ months: 1 }).minus({ seconds: 1 });
         return {
-          startDate,
-          endDate,
+          startDate: startDate.toJSDate(),
+          endDate: endDate.toJSDate(),
         };
 
       default:
         throw new HttpException(
           {
-            error: 'Tipo de Data Inválida',
+            error: 'Tipo de Data Inválida, use day, week ou month',
           },
           HttpStatus.BAD_REQUEST,
         );
