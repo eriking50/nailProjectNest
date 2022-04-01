@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Type } from '@prisma/client';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from 'src/modules/prisma/prisma.service';
 import { TypeDTO } from './dto/type.dto';
 import { TypeUpdateDTO } from './dto/typeUpdate.dto';
 

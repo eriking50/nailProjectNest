@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Schedule } from '@prisma/client';
 import DateHelper from 'src/helpers/dateHelper';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from 'src/modules/prisma/prisma.service';
 import { ScheduleDTO } from './dto/schedule.dto';
 import { ScheduleUpdateDTO } from './dto/scheduleUpdate.dto';
 
