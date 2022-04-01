@@ -11,7 +11,7 @@ import {
 import { Customer } from '@prisma/client';
 import { CustomerService } from './customer.service';
 import { CustomerDTO } from '../../types/dtos/customer/customer.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
 import { CustomerUpdateDTO } from 'src/types/dtos/customer/customerUpdate.dto';
 import {
   makeValidationCreate,
@@ -28,27 +28,49 @@ export class CustomerController {
   }
 
   @Get(':id')
+  @ApiParam({
+    name: 'id',
+    type: 'string',
+  })
   async findOne(@Param() params): Promise<Customer> {
     return await this.customerService.getOne(params.id);
   }
 
   @Get(':id/schedules')
+  @ApiParam({
+    name: 'id',
+    type: 'string',
+  })
   async findOnewishSchedules(@Param() params): Promise<Customer> {
     return await this.customerService.getOneWithSchedules(params.id);
   }
 
   @Post()
   @UsePipes(makeValidationCreate())
+  @ApiBody({
+    type: CustomerDTO,
+  })
   async create(@Body() body: CustomerDTO): Promise<Customer> {
     return await this.customerService.create(body);
   }
 
   @Delete(':id')
+  @ApiParam({
+    name: 'id',
+    type: 'string',
+  })
   async delete(@Param() params): Promise<Customer> {
     return await this.customerService.delete(params.id);
   }
 
   @Patch(':id')
+  @ApiParam({
+    name: 'id',
+    type: 'string',
+  })
+  @ApiBody({
+    type: CustomerUpdateDTO,
+  })
   @UsePipes(makeValidationUpdate())
   async update(
     @Param() params,

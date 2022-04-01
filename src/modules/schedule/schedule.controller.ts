@@ -9,7 +9,7 @@ import {
   Query,
   UsePipes,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Schedule } from '@prisma/client';
 import {
   makeValidationCreate,
@@ -24,6 +24,16 @@ import { ScheduleService } from './schedule.service';
 export class ScheduleController {
   constructor(private readonly scheduleService: ScheduleService) {}
   @Get('date/:date')
+  @ApiParam({
+    name: 'date',
+    type: 'string',
+    example: '1970-01-31',
+  })
+  @ApiQuery({
+    name: 'type',
+    type: 'string',
+    enum: ['day', 'week', 'month'],
+  })
   async findAllByDate(@Param() params, @Query() query): Promise<Schedule[]> {
     const response = await this.scheduleService.getAllByDate(
       params.date,
@@ -33,6 +43,10 @@ export class ScheduleController {
   }
 
   @Get(':id')
+  @ApiParam({
+    name: 'id',
+    type: 'string',
+  })
   async findOne(@Param() params): Promise<Schedule> {
     const response = await this.scheduleService.getOne(params.id);
     if (response) {
@@ -41,6 +55,9 @@ export class ScheduleController {
   }
 
   @Post()
+  @ApiBody({
+    type: ScheduleDTO,
+  })
   @UsePipes(makeValidationCreate())
   async create(@Body() body: ScheduleDTO): Promise<Schedule> {
     return await this.scheduleService.create(body);
@@ -52,6 +69,13 @@ export class ScheduleController {
   }
 
   @Patch(':id')
+  @ApiBody({
+    type: ScheduleUpdateDTO,
+  })
+  @ApiParam({
+    name: 'id',
+    type: 'string',
+  })
   @UsePipes(makeValidationUpdate())
   async update(
     @Param() params,

@@ -8,7 +8,7 @@ import {
   Post,
   UsePipes,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
 import { Type } from '@prisma/client';
 import {
   makeValidationCreate,
@@ -29,6 +29,10 @@ export class TypeController {
   }
 
   @Get(':id')
+  @ApiParam({
+    name: 'id',
+    type: 'string',
+  })
   async findOne(@Param() params): Promise<Type> {
     const response = await this.typeService.getOne(params.id);
     if (response) {
@@ -38,16 +42,30 @@ export class TypeController {
 
   @Post()
   @UsePipes(makeValidationCreate())
+  @ApiBody({
+    type: TypeDTO,
+  })
   async create(@Body() body: TypeDTO): Promise<Type> {
     return await this.typeService.create(body);
   }
 
   @Delete(':id')
+  @ApiParam({
+    name: 'id',
+    type: 'string',
+  })
   async delete(@Param() params): Promise<Type> {
     return await this.typeService.delete(params.id);
   }
 
   @Patch(':id')
+  @ApiParam({
+    name: 'id',
+    type: 'string',
+  })
+  @ApiBody({
+    type: TypeUpdateDTO,
+  })
   @UsePipes(makeValidationUpdate())
   async update(@Param() params, @Body() body: TypeUpdateDTO): Promise<Type> {
     return await this.typeService.update(params.id, body);
