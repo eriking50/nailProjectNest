@@ -8,11 +8,13 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { Schedule } from '@prisma/client';
 import { ScheduleDTO } from '../../types/dtos/schedule/schedule.dto';
 import { ScheduleUpdateDTO } from '../../types/dtos/schedule/scheduleUpdate.dto';
 import { ScheduleService } from './schedule.service';
 
+@ApiTags('schedules')
 @Controller('schedules')
 export class ScheduleController {
   constructor(private readonly scheduleService: ScheduleService) {}

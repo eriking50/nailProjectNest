@@ -7,11 +7,13 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { Type } from '@prisma/client';
 import { TypeDTO } from '../../types/dtos/type/type.dto';
 import { TypeUpdateDTO } from '../../types/dtos/type/typeUpdate.dto';
 import { TypeService } from './type.service';
 
+@ApiTags('types')
 @Controller('types')
 export class TypeController {
   constructor(private readonly typeService: TypeService) {}
@@ -40,10 +42,7 @@ export class TypeController {
   }
 
   @Patch(':id')
-  async update(
-    @Param() params,
-    @Body() body: TypeUpdateDTO,
-  ): Promise<Type> {
+  async update(@Param() params, @Body() body: TypeUpdateDTO): Promise<Type> {
     return await this.typeService.update(params.id, body);
   }
 }

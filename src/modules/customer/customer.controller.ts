@@ -10,7 +10,10 @@ import {
 import { Customer } from '@prisma/client';
 import { CustomerService } from './customer.service';
 import { CustomerDTO } from '../../types/dtos/customer/customer.dto';
+import { ApiTags } from '@nestjs/swagger';
+import { CustomerUpdateDTO } from 'src/types/dtos/customer/customerUpdate.dto';
 
+@ApiTags('customers')
 @Controller('customers')
 export class CustomerController {
   constructor(private readonly customerService: CustomerService) {}
@@ -23,6 +26,7 @@ export class CustomerController {
   async findOne(@Param() params): Promise<Customer> {
     return await this.customerService.getOne(params.id);
   }
+
   @Get(':id/schedules')
   async findOnewishSchedules(@Param() params): Promise<Customer> {
     return await this.customerService.getOneWithSchedules(params.id);
@@ -39,7 +43,10 @@ export class CustomerController {
   }
 
   @Patch(':id')
-  async update(@Param() params, @Body() body: CustomerDTO): Promise<Customer> {
+  async update(
+    @Param() params,
+    @Body() body: CustomerUpdateDTO,
+  ): Promise<Customer> {
     return await this.customerService.update(params.id, body);
   }
 }
